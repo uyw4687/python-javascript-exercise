@@ -76,7 +76,10 @@ class BabynameParser:
             filename: The filename to parse.
         """
 
-        text = "File is not read yet"  # TODO: Open and read the given file.
+        text = "File is not read yet"  # DONE: Open and read the given file.
+        filein = open(filename, 'r')
+        text = filein.read()
+        filein.close()
         # Could process the file line-by-line, but regex on the whole text at once is even easier.
 
         # The year extracting code is provided. Implement the tuple extracting code by using this.
@@ -89,7 +92,7 @@ class BabynameParser:
 
         # Extract all the data tuples with a findall()
         # each tuple is: (rank, male-name, female-name)
-        self.rank_to_names_tuples = []  # TODO: Extract the list of rank to names tuples.
+        self.rank_to_names_tuples = re.findall(r'<tr align="right"><td>(\d+)</td><td>(\w+)</td><td>(\w+)</td>', text)  # DONE: Extract the list of rank to names tuples.
 
     def parse(self, parsing_lambda):
         """
@@ -102,4 +105,9 @@ class BabynameParser:
         Returns:
             The list of parsed babynames.
         """
-        # TODO: Implement this method.
+        # DONE: Implement this method.
+        parsed = []
+        for rank_to_names_tuple in self.rank_to_names_tuples:
+            parsed.append(parsing_lambda(rank_to_names_tuple))
+
+        return parsed
