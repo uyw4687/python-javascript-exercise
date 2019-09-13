@@ -41,14 +41,19 @@ def main():
     parser = BabynameParser(filename)
 
     # Parse male-names and female-names from the file with the implemented parser.
-    parsed_malenames = parser.parse(None)  # TODO: Parse the rank and male-name tuples with your lambda.
-    parsed_femalenames = parser.parse(None)  # TODO: Parse the rank and female-name tuples with your lambda.
+    parsed_malenames = parser.parse(lambda rank_to_names_tuple: rank_to_names_tuple[:2])  # DONE: Parse the rank and male-name tuples with your lambda.
+    parsed_femalenames = parser.parse(lambda rank_to_names_tuple: rank_to_names_tuple[:3:2])  # DONE: Parse the rank and female-name tuples with your lambda.
 
     # Find the common popular names.
     common_names = []
-    # TODO: Fill the common_names with (common popular babyname: male-rank, female-rank) strings.
+    # DONE: Fill the common_names with (common popular babyname: male-rank, female-rank) strings.
+    for parsed_malename in parsed_malenames:
+        for parsed_femalename in parsed_femalenames:
+            if parsed_malename[1] == parsed_femalename[1]:
+                common_names.append("{0}: {1}, {2}".format(parsed_malename[1], parsed_malename[0], parsed_femalename[0]))
+                break
     # TODO: Sort the list in ascending alphabetical order.
-
+    common_names.sort()
     # Print your result.
     print("Common popular babynames in {0} (Count: {1})".format(parser.year, str(len(common_names))))
     print("Common babyname: male rank, female rank")
