@@ -37,8 +37,13 @@ Here's what the html looks like in the baby.html files:
 class BabynameFileNotFoundException(Exception):
     """
     A custom exception for the cases that the babyname file does not exist.
+
+    Attributes:
+
+        message -- explanation of why the specific transition is not allowed
     """
-    pass
+    def __init__(self, message):
+        super(BabynameFileNotFoundException, self).__init__(message)
 
 
 def check_filename_existence(func):
@@ -50,7 +55,12 @@ def check_filename_existence(func):
     Raises:
         BabynameFileNotFoundException: if there is no such file named as the first argument of the function to decorate.
     """
-    # TODO: Implement this decorator.
+    # DONE: Implement this decorator.
+    def wrapper(self, filename):
+        if(not os.path.exists(filename)):
+            raise BabynameFileNotFoundException("No such babyname file or directory: {0}".format(filename))
+        return func(self, filename)
+    return wrapper
 
 
 class BabynameParser:
